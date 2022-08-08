@@ -13,59 +13,33 @@ class Normalizer
 {
     private readonly NormalizerContainer $normalizerContainer;
 
-    private array $defaultOptions = [];
-
     public function __construct(NormalizerContainer $normalizerContainer)
     {
         $this->normalizerContainer = $normalizerContainer;
     }
 
     /**
-     * @param mixed $value
-     */
-    public function addDefaultOption(string $key, $value)
-    {
-        $this->defaultOptions[$key] = $value;
-    }
-
-    public function setDefaultsOptions(array $defaultOptions = [])
-    {
-        $this->defaultOptions = $defaultOptions;
-    }
-
-    /**
      * @param array|object|null $data
      */
-    public function normalize($data, array $options = [], Normalizer $defaultNormalizer = null): mixed
+    public function normalize($data, array $options = []): mixed
     {
-        $options = \array_merge($this->defaultOptions, $options);
+        $options = \array_merge($options);
+
+        if ($data instanceof \Traversable) {
+            return $this->normalizeArray($data, $options);
+        }
 
         if (\is_object($data)) {
-            $class = get_class($data);
-            if (null !== $defaultNormalizer) {
-                $normalizer = $defaultNormalizer;
-            } elseif ($this->normalizerContainer->isSupportingEntity($class)) {
-                $normalizer = $this->normalizerContainer
-                    ->get($class, isset($options['payload']) ? $options['payload'] : 'default');
-            } elseif ($data instanceof \Traversable) {
-                return $this->normalizeArray($data, $options, $defaultNormalizer);
+            $className = get_class($data);
+            if ($this->normalizerContainer->isSupportingEntity($data)) {
+                $normalizer = $this->normalizerContainer->get($className);
             } else {
-                $normalizer = $data;
+                return $data;
             }
 
-            $dto = null;
-            if ($normalizer instanceof DTOTransformerInterface) {
-                $dtoClass = $normalizer->getDTOClass();
-                $dto = new $dtoClass();
-            }
-
-            if (null === $dto) {
-                $dto = $normalizer;
-            }
-
-            if ($normalizer instanceof RestTransformerInterface) {
-                $normalizer->transform($dto, $data, $this, $options);
-            }
+            $dtoClass = $normalizer->getDTOQualifiedName();
+            $dto = new $dtoClass();
+            $normalizer->transform($dto, $data, $this, $options);
 
             return (array) $dto;
         }
@@ -74,13 +48,13 @@ class Normalizer
             return $data;
         }
 
-        return $this->normalizeArray($data, $options, $defaultNormalizer);
+        return $this->normalizeArray($data, $options);
     }
 
-    private function normalizeArray($data, array $options = [], Normalizer $defaultNormalizer = null): array
+    private function normalizeArray($data, array $options = []): array
     {
         foreach ($data as $k => $value) {
-            $data[$k] = $this->normalize($value, $options, $defaultNormalizer);
+            $data[$k] = $this->normalize($value, $options);
         }
 
         return $data;

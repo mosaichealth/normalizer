@@ -18,13 +18,7 @@ class NormalizeTest extends TestCase
     {
         // Given
         $subNormalizer1 = new DateTimeImmutableNormalizer();
-        $container = new NormalizerContainer(
-            [
-                \DateTimeImmutable::class => [
-                    '*' => DateTimeImmutableNormalizer::class
-                ]
-            ]
-        );
+        $container = new NormalizerContainer();
 
         $container->addNormalizer($subNormalizer1);
 
