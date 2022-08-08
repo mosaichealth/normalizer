@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace MosaicHealth\Normalizer\Implementation\Normalizer;
 
-use MosaicHealth\Normalizer\DTOTransformerInterface;
 use MosaicHealth\Normalizer\Implementation\DTO\DateTimeImmutableDTO;
 use MosaicHealth\Normalizer\Normalizer;
-use MosaicHealth\Normalizer\RestTransformerInterface;
+use MosaicHealth\Normalizer\NormalizerImplementationGuardTrait;
+use MosaicHealth\Normalizer\NormalizerInterface;
 
 /**
  * Normalizer: This object is responsible to transform an Entity/ValueObject into a serializable DTO.
  *
  * @author Guillaume MOREL <me@gmorel.io>
  */
-class DateTimeImmutableNormalizer implements RestTransformerInterface, DTOTransformerInterface
+class DateTimeImmutableNormalizer implements NormalizerInterface
 {
+    use NormalizerImplementationGuardTrait;
+
     /**
      * {@inheritdoc}
      *
@@ -24,14 +26,25 @@ class DateTimeImmutableNormalizer implements RestTransformerInterface, DTOTransf
      */
     public function transform($dto, $entity, Normalizer $normalizer, array $options = [])
     {
+        $this->guardDTO($dto);
+        $this->guardEntity($entity);
+
         // Y-m-d\TH:i:sP easily parsed by Javascript
         $dto->dateTime = $entity->format(\DateTimeInterface::RFC3339);
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getEntityQualifiedName(): string
+    {
+        return \DateTimeImmutable::class;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function getDTOClass(): string
+    public function getDTOQualifiedName(): string
     {
         return DateTimeImmutableDTO::class;
     }
