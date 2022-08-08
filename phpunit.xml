@@ -18,9 +18,9 @@
         <server name="SHELL_VERBOSITY" value="-1" />
     </php>
     <testsuites>
-        <testsuite name="Project Unit Test Suite">
-            <directory>tests/Unit</directory>
-        </testsuite>
+<!--        <testsuite name="Project Unit Test Suite">-->
+<!--            <directory>tests/Unit</directory>-->
+<!--        </testsuite>-->
         <testsuite name="Project Integration Test Suite">
             <directory>tests/Integration</directory>
         </testsuite>
