@@ -26,7 +26,7 @@ class NormalizeTest extends TestCase
             ]
         );
 
-        $container->addNormalizer($subNormalizer1, DateTimeImmutableNormalizer::class);
+        $container->addNormalizer($subNormalizer1);
 
         $normalizer = new SUT($container);
 

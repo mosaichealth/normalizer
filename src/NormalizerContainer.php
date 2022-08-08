@@ -21,9 +21,9 @@ class NormalizerContainer
         $this->mapping = $mapping;
     }
 
-    public function addNormalizer(RestTransformerInterface $normalizer, string $serviceId)
+    public function addNormalizer(RestTransformerInterface $normalizer): void
     {
-        $this->normalizers[$serviceId] = $normalizer;
+        $this->normalizers[get_class($normalizer)] = $normalizer;
     }
 
     public function isSupportingEntity(string $class): bool
