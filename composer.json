@@ -1,0 +1,25 @@
+{
+    "name": "mosaichealth/normalizer",
+    "type": "library",
+    "description": "Stable and simple PHP Normalizer ",
+    "keywords": ["normalizer"],
+    "homepage": "https://github.com/mosaichealth/normalizer",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "MosaicHealth\\Normalizer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MosaicHealth\\Tests\\Normalizer\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "ext-mbstring": "*",
+        "phpunit/phpunit": "^9.5"
+    }
+}
