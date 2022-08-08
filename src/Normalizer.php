@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace MosaicHealth\Normalizer;
 
-use Doctrine\Common\Util\ClassUtils;
-
 /**
  * Normalize a DTO into a JSON payload.
  *
@@ -43,9 +41,10 @@ class Normalizer
         $options = \array_merge($this->defaultOptions, $options);
 
         if (\is_object($data)) {
+            $class = get_class($data);
             if (null !== $defaultNormalizer) {
                 $normalizer = $defaultNormalizer;
-            } elseif ($this->normalizerContainer->isSupportingEntity($class = ClassUtils::getClass($data))) {
+            } elseif ($this->normalizerContainer->isSupportingEntity($class)) {
                 $normalizer = $this->normalizerContainer
                     ->get($class, isset($options['payload']) ? $options['payload'] : 'default');
             } elseif ($data instanceof \Traversable) {
@@ -68,7 +67,7 @@ class Normalizer
                 $normalizer->transform($dto, $data, $this, $options);
             }
 
-            return $dto;
+            return (array) $dto;
         }
 
         if (!is_array($data)) {
