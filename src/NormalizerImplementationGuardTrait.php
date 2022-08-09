@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace MosaicHealth\Normalizer;
 
-use MosaicHealth\Normalizer\Implementation\DTO\DateTimeImmutableDTO;
 
 /**
  * @author Guillaume MOREL <me@gmorel.io>

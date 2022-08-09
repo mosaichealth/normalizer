@@ -14,7 +14,7 @@ class DateTimeImmutableDTO implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): string
     {
         return $this->dateTime;
     }
