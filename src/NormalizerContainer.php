@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MosaicHealth\Normalizer;
 
-use App\Common\UI\Normalizer\Exception\NormalizerNotFoundException;
+use MosaicHealth\Normalizer\Exception\NormalizerNotFoundException;
 
 /**
  * @author Guillaume MOREL <me@gmorel.io>
