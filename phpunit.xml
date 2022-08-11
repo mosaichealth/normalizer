@@ -23,6 +23,7 @@
 <!--        </testsuite>-->
         <testsuite name="Project Integration Test Suite">
             <directory>tests/Integration</directory>
+            <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
 

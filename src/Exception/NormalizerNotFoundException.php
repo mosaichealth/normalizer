@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Common\UI\Normalizer\Exception;
+namespace MosaicHealth\Normalizer\Exception;
 
 /**
  * @author Guillaume MOREL <me@gmorel.io>
