@@ -14,7 +14,7 @@ trait NormalizerImplementationGuardTrait
         if (get_class($dto) !== $this->getDTOQualifiedName()) {
             throw new \LogicException(
                 sprintf(
-                    'Normalizer "%s" is not accepting DTO "%". It accepts "%".',
+                    'Normalizer "%s" is not accepting DTO "%s". It accepts "%s".',
                     self::class,
                     $dto::class,
                     $this->getDTOQualifiedName()
@@ -28,7 +28,7 @@ trait NormalizerImplementationGuardTrait
         if (get_class($entity) !== $this->getEntityQualifiedName()) {
             throw new \LogicException(
                 sprintf(
-                    'Normalizer "%s" is not accepting Entity "%". It accepts "%".',
+                    'Normalizer "%s" is not accepting Entity "%s". It accepts "%s".',
                     self::class,
                     $entity::class,
                     $this->getEntityQualifiedName()
