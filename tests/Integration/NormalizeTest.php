@@ -32,13 +32,10 @@ class NormalizeTest extends TestCase
 
     public function provider()
     {
-        $container = new NormalizerContainer();
-
         $dateTimeImmutableNormalizer = new DateTimeImmutableNormalizer();
         $collectionNormalizer = new CollectionNormalizer();
 
-        $container->addNormalizer($dateTimeImmutableNormalizer);
-        $container->addNormalizer($collectionNormalizer);
+        $container = new NormalizerContainer([$dateTimeImmutableNormalizer, $collectionNormalizer]);
         return [
             'Simple' => [
                 new \DateTimeImmutable("@1659967822"),

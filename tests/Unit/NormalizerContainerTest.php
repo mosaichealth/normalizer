@@ -8,7 +8,6 @@ use MosaicHealth\Normalizer\Exception\NormalizerNotFoundException;
 use MosaicHealth\Normalizer\NormalizerInterface;
 use MosaicHealth\Normalizer\NormalizerContainer as SUT;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 /**
  * @author Hugh O'REILLY <hscoreilly@gmail.com>
@@ -22,8 +21,7 @@ class NormalizerContainerTest extends TestCase
     public function testIsSupportingEntity(array $data, array $expected): void
     {
         // Given
-        $sut = new SUT();
-        $sut->addNormalizer($data['Normalizer']);
+        $sut = new SUT([$data['Normalizer']]);
 
         // When
         $isSupportingEntity = $sut->isSupportingEntity($data['Entity']);
@@ -67,10 +65,11 @@ class NormalizerContainerTest extends TestCase
     public function testGet(array $data, array $expected): void
     {
         // Given
-        $sut = new SUT();
+        $normalizers = [];
         foreach ($data['Normalizers'] as $normalizer) {
-            $sut->addNormalizer($normalizer);
+            $normalizers[] = $normalizer;
         }
+        $sut = new SUT($normalizers);
 
         // When
         if (true === $expected['ExceptionThrown']) {

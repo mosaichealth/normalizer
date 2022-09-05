@@ -14,6 +14,20 @@ class NormalizerContainer
     /** @var NormalizerInterface[] */
     private array $normalizers = [];
 
+    /**
+     * @param iterable<NormalizerInterface> $normalizers
+     */
+    public function __construct(iterable $normalizers)
+    {
+        if ($normalizers instanceof \Traversable) {
+            $normalizers = iterator_to_array($normalizers);
+        }
+
+        foreach ($normalizers as $normalizer) {
+            $this->addNormalizer($normalizer);
+        }
+    }
+
     public function addNormalizer(NormalizerInterface $normalizer): void
     {
         $this->normalizers[$normalizer->getEntityQualifiedName()] = $normalizer;
