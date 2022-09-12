@@ -29,8 +29,7 @@ class DateTimeImmutableNormalizer implements NormalizerInterface
         $this->guardDTO($dto);
         $this->guardEntity($entity);
 
-        // Y-m-d\TH:i:sP easily parsed by Javascript
-        $dto->dateTime = $entity->format(\DateTimeInterface::RFC3339);
+        $dto->dateTime = $entity;
     }
 
     /**

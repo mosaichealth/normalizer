@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace MosaicHealth\Tests\Normalizer\Integration;
 
+use MosaicHealth\Normalizer\Implementation\DTO\CollectionDTO;
+use MosaicHealth\Normalizer\Implementation\DTO\DateTimeImmutableDTO;
 use MosaicHealth\Normalizer\Implementation\Entity\TypeLessCollection;
 use MosaicHealth\Normalizer\Implementation\Normalizer\CollectionNormalizer;
 use MosaicHealth\Normalizer\Implementation\Normalizer\DateTimeImmutableNormalizer;
@@ -19,7 +21,7 @@ class NormalizeTest extends TestCase
     /**
      * @dataProvider provider
      */
-    public function testNormalizer($entity, NormalizerContainer $container, array $expected)
+    public function testNormalizer($entity, NormalizerContainer $container, $expected)
     {
         $normalizer = new SUT($container);
 
@@ -35,23 +37,36 @@ class NormalizeTest extends TestCase
         $dateTimeImmutableNormalizer = new DateTimeImmutableNormalizer();
         $collectionNormalizer = new CollectionNormalizer();
 
+        $simpleExpectedDto = new DateTimeImmutableDTO();
+        $simpleExpectedDto->dateTime = new \DateTimeImmutable("@1659967822");
+
+        $nestedExpectedDto = new CollectionDTO();
+        $nestedExpectedDto->items =new TypeLessCollection([
+            new \DateTimeImmutable("@1659967822")
+        ]);
+
+        $multipleNestedExpectedDto = new CollectionDTO();
+        $multipleNestedExpectedDto->items =new TypeLessCollection([
+            new \DateTimeImmutable("@1659967822"),
+            new \DateTimeImmutable("@1659967821")
+        ]);
+
+        $emptyNestedExpectedDto = new CollectionDTO();
+        $emptyNestedExpectedDto->items =new TypeLessCollection([]);
+
         $container = new NormalizerContainer([$dateTimeImmutableNormalizer, $collectionNormalizer]);
         return [
             'Simple' => [
                 new \DateTimeImmutable("@1659967822"),
                 $container,
-                ['dateTime' => '2022-08-08T14:10:22+00:00']
+                $simpleExpectedDto
             ],
             'Nested' => [
                 new TypeLessCollection([
                     new \DateTimeImmutable("@1659967822")
                 ]),
                 $container,
-                [
-                     "items" => [
-                         ['dateTime' => '2022-08-08T14:10:22+00:00']
-                     ]
-                ]
+                $nestedExpectedDto
             ],
             'Nested with 2 items' => [
                 new TypeLessCollection([
@@ -59,19 +74,12 @@ class NormalizeTest extends TestCase
                     new \DateTimeImmutable("@1659967821"),
                 ]),
                 $container,
-                [
-                    "items" => [
-                        ['dateTime' => '2022-08-08T14:10:22+00:00'],
-                        ['dateTime' => '2022-08-08T14:10:21+00:00']
-                    ]
-                ]
+                $multipleNestedExpectedDto
             ],
             'Collection without items' => [
                 new TypeLessCollection([]),
                 $container,
-                [
-                    "items" => []
-                ]
+                $emptyNestedExpectedDto
             ],
         ];
     }
