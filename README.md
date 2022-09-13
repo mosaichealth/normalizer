@@ -23,3 +23,21 @@ Test : `vendor/bin/phpunit`
 - Declare the NormalizerContainer like this `<service id="MosaicHealth\Normalizer\NormalizerContainer" ><argument type="tagged_iterator" tag="app.normalizer"/></service>`
 
 You need to declare the NormalizerInterface like this to get all the Normalizer that implement it. Then you give it as argument to the NormalizeContainer.
+
+
+## Contribute
+
+### Install
+
+- Start Docker container `docker-compose up -d`
+
+### Tests
+
+- All tests `bin/phpunit`
+- Only one file `bin/phpunit tests/Integration/NormalizeTest.php`
+
+### Using xDebug on PHPStorm
+
+Create a server
+Name: `[MosaicHealth] Xdebug`
+Host: `172.17.0.1`
