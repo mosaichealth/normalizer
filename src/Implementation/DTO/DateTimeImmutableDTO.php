@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace MosaicHealth\Normalizer\Implementation\DTO;
 
+use MosaicHealth\Normalizer\Json;
+
 /**
  * @author Hugh O'REILLY <hscoreilly@gmail.com>
  */
 class DateTimeImmutableDTO implements \JsonSerializable
 {
-    public string $dateTime;
+    public \DateTimeImmutable $dateTime;
 
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize(): string
+    public function jsonSerialize(): mixed
     {
-        return $this->dateTime;
+        return Json::objectNode([
+            'dateTime' => $this->dateTime,
+        ]);
     }
 }

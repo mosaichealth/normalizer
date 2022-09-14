@@ -41,7 +41,7 @@ class Normalizer
             $dto = new $dtoClass();
             $normalizer->transform($dto, $data, $this, $options);
 
-            return (array) $dto;
+            return $dto;
         }
 
         if (!is_array($data)) {

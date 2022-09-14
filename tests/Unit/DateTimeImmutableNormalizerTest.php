@@ -46,10 +46,9 @@ class DateTimeImmutableNormalizerTest extends TestCase
     public function providerTransform(): array
     {
         $testDateLinuxTimeStamp = '1659967822';
-        $testDateRFC3339 = '2022-08-08T14:10:22+00:00';
 
         $validEntityExpectedDTO = new DateTimeImmutableDTO();
-        $validEntityExpectedDTO->dateTime = $testDateRFC3339;
+        $validEntityExpectedDTO->dateTime = new \DateTimeImmutable("@$testDateLinuxTimeStamp");
 
         $invalidDTO = new CollectionDTO();
         $invalidEntity = new \DateTime("@$testDateLinuxTimeStamp");

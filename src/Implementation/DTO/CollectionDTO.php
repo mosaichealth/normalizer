@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace MosaicHealth\Normalizer\Implementation\DTO;
 
+use MosaicHealth\Normalizer\Implementation\Entity\TypeLessCollection;
+use MosaicHealth\Normalizer\Json;
+
 /**
  * @author Lucas LOMBARDO <lucas.lombardo.dev@gmail.com>
  */
 class CollectionDTO implements \JsonSerializable
 {
-    public array $items;
+    public TypeLessCollection $items;
 
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize(): array
+    public function jsonSerialize(): mixed
     {
-        return [
-            'items' => $this->items,
-        ];
+        return Json::objectNode([
+            'item' => $this->items,
+        ]);
     }
 }

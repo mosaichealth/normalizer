@@ -24,7 +24,7 @@ class CollectionNormalizer implements NormalizerInterface
      */
     public function transform($dto, $entity, Normalizer $normalizer, array $options = [])
     {
-        $dto->items = $this->createCollectionDTO($entity, $normalizer, $options);
+        $dto->items = $entity;
     }
 
     /**
@@ -43,13 +43,8 @@ class CollectionNormalizer implements NormalizerInterface
     /**
      * @return \JsonSerializable[]
      */
-    private function createCollectionDTO(TypeLessCollection $entity, Normalizer $normalizer, array $options): array
+    private function createCollectionDTO(TypeLessCollection $entity, Normalizer $normalizer, array $options): CollectionDTO
     {
-        $collectionDTO = [];
-        foreach ($entity->getItems() as $item) {
-            $collectionDTO[] = $normalizer->normalize($item, $options);
-        }
-
-        return $collectionDTO;
+        return $normalizer->normalize($entity, $options);
     }
 }
